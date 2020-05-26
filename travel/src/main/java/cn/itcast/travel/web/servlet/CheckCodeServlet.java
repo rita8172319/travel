@@ -72,7 +72,6 @@ public class CheckCodeServlet extends HttpServlet {
 			//将c放入到StringBuffer中去
 			sb.append(c);
 		}
-		System.out.println(sb.toString());
 		return sb.toString();
 	}
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
