@@ -1,0 +1,22 @@
+pipeline {
+   agent any
+
+   stages {
+      stage('git pull') {
+         steps {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://gitee.com/rita8172319/travel.git']]])
+         }
+      }
+      stage('build project') {
+         steps {
+            sh label: '', script: '''cd travel
+            mvn clean package'''
+         }
+      }
+      stage('publish project') {
+         steps {
+            deploy adapters: [tomcat9(credentialsId: 'b10984ea-b7da-4953-928c-1b74068b7981', path: '', url: 'http://10.0.0.17:8089/')], contextPath: null, war: 'travel/target/*.war'
+         }
+      }
+   }
+}
